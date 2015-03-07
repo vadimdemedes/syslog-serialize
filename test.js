@@ -14,6 +14,7 @@ require('chai').should();
 describe ('syslog-serialize', function () {
   var time = new Date();
   time.setMonth(1);
+  time.setDate(7);
   time.setHours(1);
   time.setMinutes(2);
   time.setSeconds(3);
@@ -28,7 +29,7 @@ describe ('syslog-serialize', function () {
       message: 'test'
     });
     
-    log.should.equal('<5>Feb 01:02:03 abc system[142]: test');
+    log.should.equal('<5>Feb 07 01:02:03 abc system[142]: test');
   });
   
   it ('serialize without priority', function () {
@@ -40,7 +41,7 @@ describe ('syslog-serialize', function () {
       message: 'test'
     });
     
-    log.should.equal('<5>Feb 01:02:03 abc system[142]: test');
+    log.should.equal('<5>Feb 07 01:02:03 abc system[142]: test');
   });
   
   it ('serialize without time', function () {
@@ -54,11 +55,12 @@ describe ('syslog-serialize', function () {
     var time = new Date();
     
     var month = MONTHS[time.getMonth()];
+    var date = twoDigits(time.getDate());
     var hours = twoDigits(time.getHours());
     var minutes = twoDigits(time.getMinutes());
     var seconds = twoDigits(time.getSeconds());
     
-    var expected = format('<5>%s %s:%s:%s abc system[142]: test', month, hours, minutes, seconds);
+    var expected = format('<5>%s %s %s:%s:%s abc system[142]: test', month, date, hours, minutes, seconds);
     
     log.should.equal(expected);
   });
@@ -71,7 +73,7 @@ describe ('syslog-serialize', function () {
       message: 'test'
     });
     
-    log.should.equal('<5>Feb 01:02:03 system[142]: test');
+    log.should.equal('<5>Feb 07 01:02:03 system[142]: test');
   });
 });
 

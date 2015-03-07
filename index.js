@@ -18,11 +18,12 @@ module.exports = function serialize (log) {
   
   // format time
   var month = MONTHS[log.time.getMonth()];
+  var date = twoDigits(log.time.getDate());
   var hours = twoDigits(log.time.getHours());
   var minutes = twoDigits(log.time.getMinutes());
   var seconds = twoDigits(log.time.getSeconds());
   
-  message.push(format('%s %s:%s:%s', month, hours, minutes, seconds));
+  message.push(format('%s %s %s:%s:%s', month, date, hours, minutes, seconds));
   
   // host optional
   log.host && message.push(log.host);
